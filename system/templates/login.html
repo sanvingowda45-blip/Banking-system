@@ -1,0 +1,103 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Secure login for the Banking System">
+    <title>Banking System | Login</title>
+    <link rel="stylesheet" href="{% static 'css/login.css' %}">
+    <script src="{% static 'js/login.js' %}" defer></script>
+</head>
+<body>
+    <main class="page-shell">
+        <section class="login-layout" aria-labelledby="page-title">
+            <div class="brand-panel">
+                <div class="brand-mark" aria-hidden="true">
+                    <svg viewBox="0 0 64 64" role="img" focusable="false">
+                        <path d="M8 25 32 10l24 15" />
+                        <path d="M13 27h38M16 29v21M27 29v21M37 29v21M48 29v21M10 52h44" />
+                    </svg>
+                </div>
+                <p class="eyebrow">Secure digital banking</p>
+                <h1 id="page-title">Banking System</h1>
+                <p class="brand-copy">Manage your account with confidence through a simple, secure banking experience.</p>
+                <div class="security-note">
+                    <span class="security-icon" aria-hidden="true">&#10003;</span>
+                    <span>Your information is protected with secure authentication.</span>
+                </div>
+            </div>
+
+            <div class="login-card">
+                <div class="card-heading">
+                    <p class="eyebrow">Account access</p>
+                    <h2>Welcome Back</h2>
+                    <p>Securely access your account</p>
+                </div>
+
+                {% if messages %}
+                    <div class="message-list" aria-live="polite">
+                        {% for message in messages %}
+                            <div class="message message-{{ message.tags }}">{{ message }}</div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+
+                <form method="POST" action="{% url 'login' %}" id="login-form" novalidate>
+                    {% csrf_token %}
+
+                    <div class="field-group">
+                        <label for="account-number">Account Number</label>
+                        <input
+                            type="text"
+                            id="account-number"
+                            name="account_number"
+                            inputmode="numeric"
+                            pattern="[0-9]{6,16}"
+                            maxlength="16"
+                            autocomplete="username"
+                            placeholder="Enter your account number"
+                            aria-describedby="account-number-error"
+                            required
+                        >
+                        <p class="field-error" id="account-number-error" role="alert"></p>
+                    </div>
+
+                    <div class="field-group">
+                        <div class="label-row">
+                            <label for="pin">4-Digit PIN</label>
+                            <button type="button" class="pin-toggle" id="pin-toggle" aria-controls="pin" aria-pressed="false">Show PIN</button>
+                        </div>
+                        <input
+                            type="password"
+                            id="pin"
+                            name="pin"
+                            inputmode="numeric"
+                            pattern="[0-9]{4}"
+                            maxlength="4"
+                            autocomplete="current-password"
+                            placeholder="Enter your PIN"
+                            aria-describedby="pin-error"
+                            required
+                        >
+                        <p class="field-error" id="pin-error" role="alert"></p>
+                    </div>
+
+                    <div class="form-options">
+                        <label class="remember-option" for="remember-me">
+                            <input type="checkbox" id="remember-me" name="remember_me">
+                            <span>Remember Me</span>
+                        </label>
+                        <a href="#" class="text-link">Forgot PIN?</a>
+                    </div>
+
+                    <button type="submit" class="login-button">Login</button>
+                </form>
+
+                <p class="create-account">Don't have an account? <a href="{% url 'create-account' %}" class="text-link">Create Account</a></p>
+            </div>
+        </section>
+        <footer class="page-footer">Academic demonstration project</footer>
+    </main>
+</body>
+</html>

@@ -1,0 +1,56 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Deposit money into your Banking System account">
+    <title>Banking System | Deposit Money</title>
+    <link rel="stylesheet" href="{% static 'css/create_account.css' %}">
+</head>
+<body>
+    <main class="page-shell">
+        <section class="register-layout" aria-labelledby="page-title">
+            <div class="brand-panel">
+                <div class="brand-mark" aria-hidden="true">
+                    <svg viewBox="0 0 64 64" focusable="false">
+                        <path d="M8 25 32 10l24 15" />
+                        <path d="M13 27h38M16 29v21M27 29v21M37 29v21M48 29v21M10 52h44" />
+                    </svg>
+                </div>
+                <p class="eyebrow">Account services</p>
+                <h1 id="page-title">Deposit Money</h1>
+                <p class="brand-copy">Add funds securely to your Banking System account.</p>
+            </div>
+
+            <div class="register-card">
+                <div class="card-heading">
+                    <p class="eyebrow">Account {{ account_number }}</p>
+                    <h2>Make a Deposit</h2>
+                    <p>Enter the amount you want to add.</p>
+                </div>
+
+                {% if messages %}
+                    <div class="message-list" aria-live="polite">
+                        {% for message in messages %}
+                            <div class="message message-{{ message.tags }}">{{ message }}</div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+
+                <form method="POST" action="{% url 'deposit' %}">
+                    {% csrf_token %}
+                    <div class="field-group">
+                        <label for="amount">Deposit Amount</label>
+                        <input type="number" id="amount" name="amount" min="0.01" step="0.01" inputmode="decimal" placeholder="Enter amount" required autofocus>
+                    </div>
+                    <button type="submit" class="primary-button">Deposit Money</button>
+                </form>
+
+                <p class="login-link"><a href="{% url 'dashboard' %}">Back to Dashboard</a></p>
+            </div>
+        </section>
+        <footer class="page-footer">Academic demonstration project</footer>
+    </main>
+</body>
+</html>

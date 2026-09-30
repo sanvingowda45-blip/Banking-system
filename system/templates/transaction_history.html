@@ -1,0 +1,68 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Banking System transaction history">
+    <title>Banking System | Transaction History</title>
+    <link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+</head>
+<body class="history-page">
+    <main class="dashboard-shell">
+        <header class="topbar">
+            <a class="brand" href="{% url 'dashboard' %}" aria-label="Banking System dashboard">
+                <span class="brand-mark" aria-hidden="true">
+                    <svg viewBox="0 0 64 64" focusable="false">
+                        <path d="M8 25 32 10l24 15" />
+                        <path d="M13 27h38M16 29v21M27 29v21M37 29v21M48 29v21M10 52h44" />
+                    </svg>
+                </span>
+                <span>Banking System</span>
+            </a>
+            <a class="logout-link" href="{% url 'logout' %}">Logout</a>
+        </header>
+
+        <section class="welcome-section history-heading" aria-labelledby="history-title">
+            <div>
+                <p class="eyebrow">Account activity</p>
+                <h1 id="history-title">Transaction History</h1>
+                <p class="welcome-copy">Account {{ account_number }}</p>
+            </div>
+        </section>
+
+        <section class="history-card" aria-label="Transaction history table">
+            {% if transaction_rows %}
+                <table class="history-table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Type</th>
+                            <th scope="col">Amount</th>
+                            <th scope="col">Date and time</th>
+                            <th scope="col">Updated balance</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for row in transaction_rows %}
+                            <tr>
+                                <td>
+                                    <span class="transaction-type transaction-type-{{ row.type|lower }}">{{ row.type }}</span>
+                                </td>
+                                <td class="amount-cell">₹{{ row.amount }}</td>
+                                <td>{{ row.created_at|date:"d M Y, h:i A" }}</td>
+                                <td class="balance-cell">₹{{ row.balance_after }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <p class="history-empty">No transactions found.</p>
+            {% endif %}
+
+            <div class="history-card-footer">
+                <a class="dashboard-button" href="{% url 'dashboard' %}">Back to Dashboard</a>
+            </div>
+        </section>
+    </main>
+</body>
+</html>

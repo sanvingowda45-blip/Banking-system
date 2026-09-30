@@ -1,0 +1,105 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Banking System account dashboard">
+    <title>Banking System | Dashboard</title>
+    <link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+</head>
+<body>
+    <main class="dashboard-shell">
+        <header class="topbar">
+            <a class="brand" href="{% url 'dashboard' %}" aria-label="Banking System dashboard">
+                <span class="brand-mark" aria-hidden="true">
+                    <svg viewBox="0 0 64 64" focusable="false">
+                        <path d="M8 25 32 10l24 15" />
+                        <path d="M13 27h38M16 29v21M27 29v21M37 29v21M48 29v21M10 52h44" />
+                    </svg>
+                </span>
+                <span>Banking System</span>
+            </a>
+            <a class="logout-link" href="{% url 'logout' %}">Logout</a>
+        </header>
+
+        {% if messages %}
+            <div class="message-list" aria-live="polite">
+                {% for message in messages %}
+                    <div class="message message-{{ message.tags }}">{{ message }}</div>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        <section class="welcome-section" aria-labelledby="dashboard-title">
+            <div>
+                <p class="eyebrow">Account overview</p>
+                <h1 id="dashboard-title">Welcome, {{ customer_name }}</h1>
+                <p class="welcome-copy">Here is a quick overview of your banking account.</p>
+            </div>
+            <div class="account-badge">
+                <span class="badge-label">Account Number</span>
+                <strong>{{ account_number }}</strong>
+            </div>
+        </section>
+
+        <section class="balance-card" aria-labelledby="balance-title">
+            <div class="balance-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" focusable="false">
+                    <path d="M3 7h18v13H3zM3 7l2-4h14l2 4M7 12h.01M11 12h.01M15 12h.01" />
+                </svg>
+            </div>
+            <div>
+                <p id="balance-title">Current Balance</p>
+                <strong>₹{{ current_balance }}</strong>
+                <span>Available balance</span>
+            </div>
+        </section>
+
+        <section class="quick-actions" aria-labelledby="actions-title">
+            <div class="section-heading">
+                <div>
+                    <p class="eyebrow">Manage your account</p>
+                    <h2 id="actions-title">Quick Actions</h2>
+                </div>
+                <span class="action-count">6 services</span>
+            </div>
+
+            <div class="action-grid">
+                <a class="action-card" href="{% url 'check-balance' %}">
+                    <span class="action-icon blue" aria-hidden="true">₹</span>
+                    <span class="action-content"><strong>Check Balance</strong><small>View your available funds</small></span>
+                    <span class="arrow" aria-hidden="true">&#8594;</span>
+                </a>
+                <a class="action-card" href="{% url 'deposit' %}">
+                    <span class="action-icon green" aria-hidden="true">+</span>
+                    <span class="action-content"><strong>Deposit Money</strong><small>Add funds to your account</small></span>
+                    <span class="arrow" aria-hidden="true">&#8594;</span>
+                </a>
+                <a class="action-card" href="{% url 'withdrawal' %}">
+                    <span class="action-icon orange" aria-hidden="true">−</span>
+                    <span class="action-content"><strong>Withdraw Money</strong><small>Withdraw funds securely</small></span>
+                    <span class="arrow" aria-hidden="true">&#8594;</span>
+                </a>
+                <a class="action-card" href="{% url 'transfer' %}">
+                    <span class="action-icon purple" aria-hidden="true">↗</span>
+                    <span class="action-content"><strong>Transfer Money</strong><small>Send money to another account</small></span>
+                    <span class="arrow" aria-hidden="true">&#8594;</span>
+                </a>
+                <a class="action-card" href="{% url 'transaction-history' %}">
+                    <span class="action-icon teal" aria-hidden="true">≡</span>
+                    <span class="action-content"><strong>Transaction History</strong><small>Review recent transactions</small></span>
+                    <span class="arrow" aria-hidden="true">&#8594;</span>
+                </a>
+                <a class="action-card" href="{% url 'change-pin' %}">
+                    <span class="action-icon navy" aria-hidden="true">&#9679;</span>
+                    <span class="action-content"><strong>Change PIN</strong><small>Update your account PIN</small></span>
+                    <span class="arrow" aria-hidden="true">&#8594;</span>
+                </a>
+            </div>
+        </section>
+
+        <footer class="dashboard-footer">Banking System &middot; Academic demonstration project</footer>
+    </main>
+</body>
+</html>
